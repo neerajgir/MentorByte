@@ -1,0 +1,10 @@
+services:
+  mentorbytepostgres:
+    image: postgres:latest
+    container_name: mentorbyte_db
+    environment:
+      - POSTGRES_DB=mentorbyte
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
