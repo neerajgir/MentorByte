@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 
+
 export const onBoardUser = async()=>{
     try {
         const user = await currentUser();

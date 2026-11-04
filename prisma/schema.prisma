@@ -7,8 +7,8 @@ datasource db {
   provider = "postgresql"
 }
 enum UserRole {
-   USER
-   ADMIN
+  USER
+  ADMIN
 }
 
 model User {
