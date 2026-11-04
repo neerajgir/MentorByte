@@ -6,9 +6,22 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+enum UserRole {
+   USER
+   ADMIN
+}
 
-model Test {
-  id   String @id @default(cuid())
-  name String
-  desc String
+model User {
+  id String @id @default(cuid())
+  clerkId  String @unique
+  username String? @unique
+  email String @unique
+  role UserRole @default(USER) 
+
+  firstName String?
+  lastName String?
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
