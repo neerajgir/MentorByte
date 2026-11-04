@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
+    "@clerk/nextjs": "^7.9.24",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "7",
