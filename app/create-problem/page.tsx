@@ -4,11 +4,19 @@ import { UserRole } from "@/lib/generated/client";
 import { getCurrentUserData } from "@/modules/auth/actions";
 import { CreateProblemForm } from "@/modules/problems/components/create-problem-form";
 import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
+import Link from "next/link";
+import React, { Suspense } from "react";
 
 const CreateProblemPage = async () => {
+  return (
+    <Suspense fallback={null}>
+      <CreateProblemContent />
+    </Suspense>
+  );
+};
+
+const CreateProblemContent = async () => {
   const user = await getCurrentUserData();
   // @ts-ignore
   if (user?.role !== UserRole.ADMIN) {
