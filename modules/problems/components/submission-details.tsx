@@ -1,17 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, CpuIcon, Code, CheckCircle2, XCircle } from "lucide-react";
+import { Submission } from "@/lib/generated/client";
 
-export const SubmissionDetails = ({ submission }:any) => {
+interface SubmissionDetailsProps {
+  submission: Submission;
+}
+
+export const SubmissionDetails = ({ submission }: SubmissionDetailsProps) => {
   const isSuccess = submission.status === "Accepted";
   const averageMemory = submission.memory ? 
-    JSON.parse(submission.memory).reduce((a, b) => parseFloat(a) + parseFloat(b), 0) / 
+    JSON.parse(submission.memory).reduce((a: string, b: string) => parseFloat(a) + parseFloat(b), 0) / 
     JSON.parse(submission.memory).length : 0;
     
   const averageTime = submission.time ? 
     JSON.parse(submission.time)
-      .map(t => parseFloat(t.replace(" s", "")))
-      .reduce((a, b) => a + b, 0) / 
+      .map((t: string) => parseFloat(t.replace(" s", "")))
+      .reduce((a: number, b: number) => a + b, 0) / 
     JSON.parse(submission.time).length : 0;
 
   return (

@@ -1,6 +1,7 @@
 import { useState , useMemo } from "react";
+import type { Problem } from "@/lib/generated/client";
 
-export function useProblemFilters(problems=[]){
+export function useProblemFilters(problems: Problem[] = []) {
     console.log("useProblemFilters called with problems:", problems);
       const [search, setSearch] = useState("");
   const [difficulty, setDifficulty] = useState("ALL");
@@ -8,7 +9,7 @@ export function useProblemFilters(problems=[]){
 
 //   Extract all unique tags from the problems
 const allTags = useMemo(()=>{
-    const tagsSet = new Set();
+    const tagsSet = new Set<string>();
     problems.forEach((p)=>p.tags?.forEach((t)=>tagsSet.add(t)));
 
     return Array.from(tagsSet)

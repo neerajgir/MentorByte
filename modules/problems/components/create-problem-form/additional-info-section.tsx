@@ -4,8 +4,17 @@ import { Lightbulb } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { UseFormReturn, FieldError } from "react-hook-form";
+import { z } from "zod";
+import { problemSchema } from "@/modules/problems/schema";
 
-export function AdditionalInfoSection({ form }) {
+type ProblemFormData = z.infer<typeof problemSchema>;
+
+interface AdditionalInfoSectionProps {
+  form: UseFormReturn<ProblemFormData>;
+}
+
+export function AdditionalInfoSection({ form }: AdditionalInfoSectionProps) {
   const {
     register,
     formState: { errors },
@@ -28,7 +37,12 @@ export function AdditionalInfoSection({ form }) {
   );
 }
 
-function ConstraintsField({ register, error }) {
+interface ConstraintsFieldProps {
+  register: UseFormReturn<ProblemFormData>["register"];
+  error?: FieldError;
+}
+
+function ConstraintsField({ register, error }: ConstraintsFieldProps) {
   return (
     <div>
       <Label className="font-medium">Constraints</Label>
@@ -42,7 +56,11 @@ function ConstraintsField({ register, error }) {
   );
 }
 
-function HintsField({ register }) {
+interface HintsFieldProps {
+  register: UseFormReturn<ProblemFormData>["register"];
+}
+
+function HintsField({ register }: HintsFieldProps) {
   return (
     <div>
       <Label className="font-medium">Hints (Optional)</Label>
@@ -55,7 +73,11 @@ function HintsField({ register }) {
   );
 }
 
-function EditorialField({ register }) {
+interface EditorialFieldProps {
+  register: UseFormReturn<ProblemFormData>["register"];
+}
+
+function EditorialField({ register }: EditorialFieldProps) {
   return (
     <div>
       <Label className="font-medium">Editorial (Optional)</Label>

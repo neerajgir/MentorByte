@@ -12,6 +12,15 @@ import {
 } from "@/components/ui/select";
 import { DIFFICULTIES } from "../constant";
 
+interface ProblemsFiltersProps {
+  search: string;
+  onSearchChange: (value: string) => void;
+  difficulty: string;
+  onDifficultyChange: (value: string) => void;
+  selectedTag: string;
+  onTagChange: (value: string) => void;
+  allTags?: string[];
+}
 
 /**
  * Filters section with search, difficulty, and tag dropdowns
@@ -24,7 +33,7 @@ export function ProblemsFilters({
   selectedTag,
   onTagChange,
   allTags = [],
-}:any) {
+}: ProblemsFiltersProps) {
   return (
     <Card>
       <CardHeader>
@@ -61,7 +70,12 @@ export function ProblemsFilters({
 /**
  * Search input with icon
  */
-function SearchInput({ value, onChange }) {
+interface SearchInputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function SearchInput({ value, onChange }: SearchInputProps) {
   return (
     <div className="relative">
       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -78,7 +92,12 @@ function SearchInput({ value, onChange }) {
 /**
  * Difficulty filter dropdown
  */
-function DifficultySelect({ value, onChange }) {
+interface SelectInputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+function DifficultySelect({ value, onChange }: SelectInputProps) {
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-45">
@@ -99,7 +118,13 @@ function DifficultySelect({ value, onChange }) {
 /**
  * Tag filter dropdown
  */
-function TagSelect({ value, onChange, tags }) {
+interface TagSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  tags: string[];
+}
+
+function TagSelect({ value, onChange, tags }: TagSelectProps) {
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-45">

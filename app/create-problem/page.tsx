@@ -18,7 +18,6 @@ const CreateProblemPage = async () => {
 
 const CreateProblemContent = async () => {
   const user = await getCurrentUserData();
-  // @ts-ignore
   if (user?.role !== UserRole.ADMIN) {
     redirect("/");
   }

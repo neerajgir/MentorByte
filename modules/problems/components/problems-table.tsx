@@ -15,15 +15,21 @@ import { usePagination } from "../hooks/use-pagination";
 import { ProblemRow } from "./problem-row";
 import { ProblemsEmpty } from "./problem-empty";
 import { ProblemsPagination } from "./problems-pagination";
-// import CreatePlaylistModal from "@/modules/playlists/components/create-playlist";
-// import { usePlaylistActions } from "@/modules/playlists/hooks/use-playlist-action";
-// import AddToPlaylistModal from "@/modules/playlists/components/add-to-playlist";
+import CreatePlaylistModal from "@/modules/playlists/components/create-playlist";
+import { usePlaylistActions } from "@/modules/playlists/hooks/use-playlist-action";
+import AddToPlaylistModal from "@/modules/playlists/components/add-to-playlist";
+import { Problem, User } from "@/lib/generated/client";
 
-const ProblemsTable = ({problems=[] , user}:any) => {
+interface ProblemsTableProps {
+  problems?: Problem[];
+  user?: User;
+}
+
+const ProblemsTable = ({problems=[] , user}: ProblemsTableProps) => {
 
   const filters = useProblemFilters(problems);
   const pagination = usePagination(filters.filteredProblems);
-//   const playlist = usePlaylistActions();
+  const playlist = usePlaylistActions();
 
   console.log("Filtered Problems:", filters.filteredProblems);
   console.log("Current Page Problems:", pagination.paginatedItems);

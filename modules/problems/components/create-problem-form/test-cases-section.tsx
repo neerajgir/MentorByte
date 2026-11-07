@@ -5,8 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { UseFormReturn, FieldErrors, UseFieldArrayReturn } from "react-hook-form";
+import { z } from "zod";
+import { problemSchema } from "@/modules/problems/schema";
 
-export function TestCasesSection({ form, testCasesArray }) {
+type ProblemFormData = z.infer<typeof problemSchema>;
+
+interface TestCasesSectionProps {
+  form: UseFormReturn<ProblemFormData>;
+  testCasesArray: UseFieldArrayReturn<ProblemFormData, "testCases">;
+}
+
+export function TestCasesSection({ form, testCasesArray }: TestCasesSectionProps) {
   const {
     register,
     formState: { errors },
@@ -51,7 +61,15 @@ export function TestCasesSection({ form, testCasesArray }) {
   );
 }
 
-function TestCaseCard({ index, register, errors, onRemove, canRemove }) {
+interface TestCaseCardProps {
+  index: number;
+  register: UseFormReturn<ProblemFormData>["register"];
+  errors: FieldErrors<ProblemFormData>;
+  onRemove: () => void;
+  canRemove: boolean;
+}
+
+function TestCaseCard({ index, register, errors, onRemove, canRemove }: TestCaseCardProps) {
   return (
     <Card className="bg-background">
       <CardHeader className="pb-4">

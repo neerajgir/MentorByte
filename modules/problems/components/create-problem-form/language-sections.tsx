@@ -8,9 +8,23 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { LANGUAGES } from "../../schema";
 import { CodeEditor } from "./code-editor";
+import {
+  UseFormReturn,
+  FieldErrors,
+  FieldError,
+  Control,
+} from "react-hook-form";
+import { z } from "zod";
+import { problemSchema } from "@/modules/problems/schema";
 
+type ProblemFormData = z.infer<typeof problemSchema>;
+type Language = keyof ProblemFormData["codeSnippets"];
 
-export function LanguageSections({ form }) {
+interface LanguageSectionsProps {
+  form: UseFormReturn<ProblemFormData>;
+}
+
+export function LanguageSections({ form }: LanguageSectionsProps) {
   return (
     <>
       {LANGUAGES.map((language) => (
@@ -20,7 +34,12 @@ export function LanguageSections({ form }) {
   );
 }
 
-function LanguageCard({ language, form }) {
+interface LanguageCardProps {
+  language: Language;
+  form: UseFormReturn<ProblemFormData>;
+}
+
+function LanguageCard({ language, form }: LanguageCardProps) {
   const {
     control,
     register,
@@ -56,7 +75,13 @@ function LanguageCard({ language, form }) {
   );
 }
 
-function StarterCodeEditor({ language, control, error }) {
+interface StarterCodeEditorProps {
+  language: Language;
+  control: Control<ProblemFormData>;
+  error?: FieldError;
+}
+
+function StarterCodeEditor({ language, control, error }: StarterCodeEditorProps) {
   return (
     <Card>
       <CardHeader>
@@ -82,7 +107,13 @@ function StarterCodeEditor({ language, control, error }) {
   );
 }
 
-function ReferenceSolutionEditor({ language, control, error }) {
+interface ReferenceSolutionEditorProps {
+  language: Language;
+  control: Control<ProblemFormData>;
+  error?: FieldError;
+}
+
+function ReferenceSolutionEditor({ language, control, error }: ReferenceSolutionEditorProps) {
   return (
     <Card>
       <CardHeader>
@@ -111,7 +142,13 @@ function ReferenceSolutionEditor({ language, control, error }) {
   );
 }
 
-function ExampleFields({ language, register, errors }) {
+interface ExampleFieldsProps {
+  language: Language;
+  register: UseFormReturn<ProblemFormData>["register"];
+  errors: FieldErrors<ProblemFormData>;
+}
+
+function ExampleFields({ language, register, errors }: ExampleFieldsProps) {
   return (
     <Card>
       <CardHeader>

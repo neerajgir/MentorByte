@@ -73,7 +73,7 @@ export const defaultFormValues = {
   },
 };
 
-export const LANGUAGES = ["JAVASCRIPT", "PYTHON", "JAVA"];
+export const LANGUAGES = ["JAVASCRIPT", "PYTHON", "JAVA"] as const;
 
 export const DIFFICULTY_OPTIONS = [
   { value: "EASY", label: "Easy", className: "bg-green-100 text-green-800" },

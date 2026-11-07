@@ -1,7 +1,16 @@
 "use server";
 
 import { prisma } from "@/lib/db";
+import { Prisma } from "@/lib/generated/client";
 import { currentUser } from "@clerk/nextjs/server";
+
+export type CurrentUserData = Prisma.UserGetPayload<{
+    include: {
+        solvedProblems: true;
+        submissions: { orderBy: { createdAt: "desc" } };
+        playlists: true;
+    };
+}>;
 
 
 export const onBoardUser = async()=>{
@@ -57,20 +66,28 @@ export const currentUserRole = async()=>{
     }
 }
 
-export const getCurrentUserData = async()=>{
+export const getCurrentUserData = async(): Promise<CurrentUserData | null> =>{
     try {
         const user = await currentUser();
         if(!user){
-            return {success: false, error: "No authenticated user found"}
+            return null;
         }
         const data = await prisma.user.findUnique({
             where:{
                 clerkId: user?.id
+            },
+            include:{
+                solvedProblems: true,
+                submissions: {
+                    orderBy: { createdAt: "desc" },
+                },
+                playlists: true,
             }
         })
         return data;
     } catch (error) {
         console.log(error)
+        return null;
     }
 }
 

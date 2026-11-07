@@ -9,7 +9,8 @@ export function useEditor(problem: any, initialLanguage = "JAVASCRIPT") {
   const [code, setCode] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [executionResponse, setExecutionResponse] = useState(null);
+  const [executionResponse, setExecutionResponse] =
+    useState<Awaited<ReturnType<typeof executeCode>> | null>(null);
 
   useEffect(() => {
     if (problem?.codeSnippets?.[selectedLanguage]) {
@@ -27,8 +28,10 @@ export function useEditor(problem: any, initialLanguage = "JAVASCRIPT") {
     try {
       setIsRunning(true);
       const language_id = getJudge0languageId(selectedLanguage);
-      const stdin = problem.testCases.map((tc) => tc.input);
-      const expected_outputs = problem.testCases.map((tc) => tc.output);
+      const stdin = problem.testCases.map((tc: { input: string }) => tc.input);
+      const expected_outputs = problem.testCases.map(
+        (tc: { output: string }) => tc.output,
+      );
 
       const res = await executeCode(code , language_id , stdin , expected_outputs , problem.id);
       setExecutionResponse(res);

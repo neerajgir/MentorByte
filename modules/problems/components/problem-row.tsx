@@ -7,12 +7,22 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { getDifficultyColor } from "../constant";
+import { Problem, User } from "@/lib/generated/client";
+
+type ProblemWithSolvedBy = Problem & { solvedBy?: { id: string }[] };
+
+interface ProblemRowProps {
+  problem: ProblemWithSolvedBy;
+  user?: User;
+  onDelete: (problemId: string) => void;
+  onSave: (problemId: string) => void;
+}
 
 /**
  * Single row in the problems table
  */
-export function ProblemRow({ problem, user, onDelete, onSave }) {
-  const isSolved = problem.solvedBy?.length > 0;
+export function ProblemRow({ problem, user, onDelete, onSave }: ProblemRowProps) {
+  const isSolved = (problem.solvedBy?.length ?? 0) > 0;
 
   return (
     <TableRow>
@@ -52,7 +62,7 @@ export function ProblemRow({ problem, user, onDelete, onSave }) {
 /**
  * Checkbox showing if problem is solved
  */
-function SolvedCheckbox({ checked }) {
+function SolvedCheckbox({ checked }: { checked: boolean }) {
   return (
     <Checkbox
       checked={checked}
@@ -65,7 +75,7 @@ function SolvedCheckbox({ checked }) {
 /**
  * Problem title with link to problem page
  */
-function ProblemTitle({ id, title }) {
+function ProblemTitle({ id, title }: { id: string; title: string }) {
   return (
     <Link
       href={`/problem/${id}`}
@@ -79,7 +89,7 @@ function ProblemTitle({ id, title }) {
 /**
  * List of tag badges
  */
-function TagsList({ tags = [] }) {
+function TagsList({ tags = [] }: { tags?: string[] }) {
   return (
     <div className="flex flex-wrap gap-1">
       {tags.map((tag, idx) => (
@@ -98,7 +108,7 @@ function TagsList({ tags = [] }) {
 /**
  * Difficulty badge with color
  */
-function DifficultyBadge({ difficulty }) {
+function DifficultyBadge({ difficulty }: { difficulty: Problem["difficulty"] }) {
   return (
     <Badge className={`${getDifficultyColor(difficulty)} border-0 font-medium`}>
       {difficulty}
@@ -109,7 +119,14 @@ function DifficultyBadge({ difficulty }) {
 /**
  * Action buttons (delete, edit, save to playlist)
  */
-function ActionButtons({ problemId, isAdmin, onDelete, onSave }) {
+interface ActionButtonsProps {
+  problemId: string;
+  isAdmin: boolean;
+  onDelete: (problemId: string) => void;
+  onSave: (problemId: string) => void;
+}
+
+function ActionButtons({ problemId, isAdmin, onDelete, onSave }: ActionButtonsProps) {
   return (
     <div className="flex items-center gap-2">
       {isAdmin && (
